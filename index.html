@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>D3 Test</title>
+        <script type="text/javascript" src="bower_components/d3/d3.min.js"></script>
+    </head>
+    <body>
+        <script type="text/javascript">
+						var nodes = [
+  						{"x": 80, "r": 20, "color": "#00ff00","label": 3}, 
+  						{"x": 140, "r": 20,"color": "#0000ff", "label": 6}, 
+  						{"x": 200, "r": 20, "color": "#ff0000","label": 1}
+						];
+            d3.select("body").append("p").text("New paragraph!");
+						var width = 960,
+								height = 500;
+
+						var svg = d3.select("body").append("svg")
+								.attr("width", width)
+    						.attr("height", height);
+					
+						function render() {
+							d3.json(nodes, function(json) {
+    					/* Define the data for the circles */
+    					var elem = svg.selectAll("g").data(nodes);
+
+    					/*Create and place the "blocks" containing the circle and the text */  
+    				  elemEnter = elem.enter()
+        													.append("g")
+        													.attr("transform", function(d){return "translate(" + d.x + ",80)"})
+                                  .attr("id", function(d){return 'g' + d.label });
+
+    					/*Create the circle for each block */
+    					circle = elemEnter.append("circle")
+        														.attr("r", function(d){return d.r} )
+        														.attr("stroke","black")
+        														.attr("fill", function(d){return d.color});
+
+    					/* Create the text for each block */
+    					texts = elemEnter.append("text")
+        								.attr("dx", function(d){return -5;})
+												.attr("dy", function(d){return 5;})
+        								.text(function(d){return d.label})
+							});
+              
+						}
+						render();
+						
+						function bubbleSort() {
+              var done = false;
+              while (!done) {
+                done = true;
+                for (var index = 1; index < nodes.length; index++) {
+                 // (function(index){
+                   // setTimeout(function(){
+                      if(nodes[index-1].label > nodes[index].label){
+                          draw(nodes[index-1], nodes[index], index-1);
+                          if(index === nodes.length -1 )
+                            done = false;
+                      }
+                   // }, 100)
+                 // })(i)
+                }
+              }
+						}
+
+            
+            function draw(nodex, nodey, i){
+                      var node1 = d3.select("#g" + nodex.label);
+                 var node2 = d3.select("#g" + nodey.label);
+
+                swap = nodex.label;
+                nodex.label = nodey.label;
+                nodey.label = swap; 
+                //console.log(node)
+                var tr1 = "translate(" + nodey.x + ",80)";
+                 node1.transition().delay(10*nodey.x).duration(10*nodey.x).attr("transform", tr1).ease("linear")
+                 var tr2 = "translate(" + nodex.x + ",80)";
+                 node2.transition().delay(10*nodex.x).duration(10*nodex.x).attr("transform", tr2).ease("linear")
+               
+            }
+          
+          setTimeout(function(){
+             bubbleSort();  
+          },1000)
+
+
+        </script>
+    </body>
+</html>

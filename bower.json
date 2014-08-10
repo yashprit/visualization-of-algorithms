@@ -1,0 +1,27 @@
+{
+  "name": "visualization-of-algorithms",
+  "version": "0.0.1",
+  "homepage": "https://github.com/yashprit/visualization-of-algorithms",
+  "authors": [
+    "Yashprit Singh"
+  ],
+  "description": "various algorithm visualization",
+  "main": "index.html",
+  "keywords": [
+    "d3",
+    "algorithm",
+    "visualization",
+    "svg"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "d3": "~3.4.11"
+  }
+}
